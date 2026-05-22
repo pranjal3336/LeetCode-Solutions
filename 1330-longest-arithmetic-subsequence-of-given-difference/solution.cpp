@@ -1,24 +1,22 @@
 class Solution {
 public:
     int longestSubsequence(vector<int>& arr, int difference) {
-        unordered_map<int , int>dp ;
+        int n = arr.size() ;
+        unordered_map<int , int> dp ;
+
         int ans = 0 ;
+        for(int i =0 ; i<n ; i++){
+            int temp = arr[i] - difference ;
+            int tempAns = 0 ;
 
-        for(int i=0 ;i<arr.size() ;i++){
-            int prev = arr[i] - difference ; //humne current element mai difference subtract kra hai and check kr rhe hai ki jo ab aaya hai voh array mai exist krta hai ya nhi 
-
-            if(dp.count(prev)){
-                dp[arr[i]] = 1 + dp[prev] ;
-            }
-            else{
-                dp[arr[i]] = 1; 
+            if(dp.count(temp)){
+                tempAns = dp[temp] ;
             }
 
+            dp[arr[i]] = 1+ tempAns ;
             ans = max(ans , dp[arr[i]]) ;
-
         }
 
         return ans ;
     }
-
 };
