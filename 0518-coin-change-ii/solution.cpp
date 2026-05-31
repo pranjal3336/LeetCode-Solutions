@@ -8,19 +8,19 @@ public:
             return 0 ;
         }
 
-        if(dp[amount][index] != -1){
-            return dp[amount][index] ;
+        if(dp[index][amount] != -1){
+            return dp[index][amount] ;
         }
 
         int include = solve(coins , amount-coins[index] , dp , index) ;//index same rhega kyonki infinte supply hai 
         int exclude = solve(coins , amount , dp , index+1 ) ;//exclude krenge toh aage bd jayga 
         int ans = include + exclude ;
 
-        return dp[amount][index] = ans ;
+        return dp[index][amount] = ans ;
     }
     int change(int amount, vector<int>& coins) {
         int n = coins.size() ;
-        vector<vector<int>>dp(amount+1 , vector<int>(n+1 , -1)) ;
+        vector<vector<int>>dp(n+1 , vector<int>(amount+1 , -1)) ;
         return solve(coins , amount , dp , 0) ;
     }
 };
