@@ -10,38 +10,38 @@
  * };
  */
 class Solution {
-private:
-void inorder(TreeNode* root ,vector<int> &ans ){
-    if(root == NULL){
-        return ;
-    }
-
-    inorder(root->left , ans);
-    ans.push_back(root->val) ;
-    inorder(root->right , ans);
-
-}
-
-TreeNode* inordertoBST(int s , int e , vector<int>&ans){
-    if(s>e){
-        return NULL ;
-    }
-    int mid = (s+e)/2 ;
-
-    TreeNode* root = new TreeNode(ans[mid]) ;
-    root -> left = inordertoBST(s , mid-1 , ans ) ;
-    root -> right = inordertoBST(mid+1 , e , ans) ;
-    return root ;
-
-
-
-}
-
 public:
-    TreeNode* balanceBST(TreeNode* root) {
-    vector<int> ans;
-    inorder(root , ans) ;
+    void solve(TreeNode* root , vector<int>&ans){
+        if(root == NULL){
+            return ;
+        }
 
-    return inordertoBST(0 , ans.size()-1 , ans ) ;
+        solve(root->left , ans) ;
+        ans.push_back(root->val) ;
+        solve(root->right , ans) ;
+
+    }
+
+    TreeNode* inorderTobst(int s , int e , vector<int>&ans){
+        if(s>e){
+            return NULL ;
+        }
+
+        int mid = (s+e)/2 ;
+
+        TreeNode* root = new TreeNode(ans[mid]) ;
+
+        root->left = inorderTobst(s , mid-1 , ans) ;
+        root->right = inorderTobst(mid+1 , e , ans) ;
+
+        return root ; 
+    }
+    TreeNode* balanceBST(TreeNode* root) {
+        vector<int> ans ;
+        solve(root , ans ) ;
+
+        return inorderTobst(0 , ans.size()-1 , ans) ;
+
+
     }
 };
