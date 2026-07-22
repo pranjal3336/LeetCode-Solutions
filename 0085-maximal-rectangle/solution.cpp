@@ -1,82 +1,84 @@
 class Solution {
 public:
-    vector<int> prevSmallerElement(vector<int> arr, int n)
-    {
-    stack<int> s ;
-    s.push(-1) ;
-    vector<int> ans(n) ;
+    vector<int>nextsmaller(vector<int>&arr , int n){
+        vector<int>ans(n) ;
+        stack<int>st ;
+        st.push(-1) ;
 
-    for(int i= 0 ; i<n ; i++){
-        int curr = arr[i] ;
-        while(s.top() != -1 && arr[s.top()] >= curr ){
-            s.pop() ;
+        for(int i= n-1 ; i>=0 ; i--){
+            int curr = arr[i] ;
+            while( st.top() != -1 && arr[st.top()] >= curr){
+                st.pop() ;
+            }
+            ans[i] = st.top() ;
+            st.push(i) ;
         }
-        ans[i] = s.top() ;
-        s.push(i) ;
-
-    } 
-    return ans ;
+        return ans ;
     }
 
-vector<int> nextSmallerElement(vector<int> arr, int n)
-{
-   stack<int> s ;
-   s.push(-1) ;
-   vector<int> ans(n) ;
+    vector<int>prevsmaller(vector<int>&arr , int n){
+        vector<int>ans(n) ;
+        stack<int>st ;
+        st.push(-1) ;
 
-   for(int i= n-1 ; i>=0 ; i--){
-       int curr = arr[i] ;
-       while(s.top()!= -1 && arr[s.top()] >= curr ){
-           s.pop() ;
-       }
-       ans[i] = s.top() ;
-       s.push(i) ;
-
-   } 
-   return ans ;
-}
-
-int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size() ;
-
-        vector<int>next(n) ;
-        next = nextSmallerElement(heights , n) ;
-
-        vector<int> prev(n) ;
-        prev = prevSmallerElement(heights , n) ;
-
-        int area = INT_MIN ;
-        for(int i=0; i<n;i++){
-            int l = heights[i] ;
-            if(next[i]==-1){
-                next[i] = n;
+        for(int i= 0 ; i<n ; i++){
+            int curr = arr[i] ;
+            while( st.top() != -1 && arr[st.top()] >= curr){
+                st.pop() ;
             }
-            int b = next[i] - prev[i] - 1;
-
-            int newArea = l*b ;
-
-            area = max(area , newArea) ;
+            ans[i] = st.top() ;
+            st.push(i) ;
         }
+        return ans ;
+    }
+
+    int largestarea(vector<int>&arr, int n){
+        int area = INT_MIN ;
+        vector<int>next ; 
+        next = nextsmaller(arr , n) ;
+
+        vector<int>prev ; 
+        prev = prevsmaller(arr , n) ;
+
+
+        for(int i=0 ; i<n ; i++){
+            int l = arr[i] ;
+            if(next[i] == -1){
+                next[i] = n ;
+            }
+            int b = next[i]-prev[i] - 1 ; 
+
+            int newarea = l*b ;
+            area= max(area , newarea) ;
+        }
+
         return area ;
     }
     int maximalRectangle(vector<vector<char>>& matrix) {
-        
-        int maxi = INT_MIN ;
+        int m = matrix[0].size() ;
+        int n = matrix.size() ;
+        int area = INT_MIN ;
+       
+       vector<int>start(m , 0) ;
 
-        vector<int>histogram(matrix[0].size() ,0) ;
-        
-        for(int i=0 ;i <matrix.size() ;i++){
-            for(int j=0 ;j<histogram.size() ; j++){
+       for(int i=0 ; i<n ; i++){
+            for(int j = 0 ; j< m ; j++){
                 if(matrix[i][j] == '1'){
-                    histogram[j]++ ;
+                    start[j]++ ;
                 }
                 else{
-                    histogram[j] = 0 ;
+                    start[j] = 0 ;
                 }
             }
-            maxi = max(maxi , largestRectangleArea(histogram)) ;
-        }
+            area = max(area , largestarea(start , m)) ;
+       }
 
-        return maxi ;
+       return area ;
+
+
+
+
+        
+
     }
 };
