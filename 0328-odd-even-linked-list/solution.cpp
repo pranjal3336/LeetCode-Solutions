@@ -9,54 +9,24 @@
  * };
  */
 class Solution {
-private:
-
-
 public:
     ListNode* oddEvenList(ListNode* head) {
-    if(head == NULL){
-        return head ;
-    } 
-
-    vector<int> ans ;
-    ListNode* temp = head ;
-
-    while(temp!=NULL){
-        ans.push_back(temp -> val);
-        temp = temp -> next ;
-    }
-    vector<int> odd ;
-    vector<int> even ;
-
-    for(int i=0;i<ans.size();i++){
-        if(i%2==0){
-            even.push_back(ans[i]);
+        if(head == NULL || head -> next == NULL  ){//0 , 1 elements hi toh head hi return krenge 
+            return head ;
         }
-        else{
-             odd.push_back(ans[i]);
+        
+        ListNode* odd = head ;
+        ListNode* even = head -> next ;
+        ListNode* evenStart = head -> next ;
+
+        while(even != NULL && even -> next != NULL){
+            odd -> next = even -> next ; 
+            even -> next = even -> next -> next  ;
+            odd  = odd -> next ;
+            even = even -> next ;
         }
+
+       odd -> next = evenStart ;  
+       return head ;
     }
-
-    ListNode* first = new ListNode(even[0]);
-    ListNode* curr = first ;
-    for(int i=1 ;i<even.size();i++){
-        ListNode* temp = new ListNode(even[i]);
-        curr -> next = temp ;
-        curr = temp ;
-    }
-
-    for(int i=0 ;i<odd.size();i++){
-        ListNode* temp = new ListNode(odd[i]);
-        curr -> next = temp ;
-        curr = temp ;
-    }
-
-    return first ;
-    
-
-    
-    
-
-    }
-    
 };
