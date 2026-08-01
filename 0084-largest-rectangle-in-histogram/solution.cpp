@@ -3,11 +3,11 @@ public:
     vector<int>nextSmaller(vector<int>&arr , int n){
         vector<int> ans(n) ;
         stack<int>st ;
-        st.push(-1) ;
+        st.push(n) ;
 
         for(int i = n-1 ; i>=0 ; i--){
             int curr = arr[i] ;
-            while(st.top() != -1 &&arr[st.top()]>=curr){//mai index push kr rha hu naaki element 
+            while(st.top() != n &&arr[st.top()]>=curr){//mai index push kr rha hu naaki element 
                 st.pop() ;
             }
             ans[i] = st.top() ;
@@ -45,10 +45,10 @@ public:
             int l = heights[i] ;
 
             
-            if(next[i] == -1){
-                next[i] = n ;
-            }
-            int b = next[i]-prev[i] -1 ;
+            // if(next[i] == -1){
+            //     next[i] = n ;
+            // }
+            int b = next[i]-prev[i] - 1 ;
 
             int newArea = l*b ;
             area = max(newArea , area) ;
