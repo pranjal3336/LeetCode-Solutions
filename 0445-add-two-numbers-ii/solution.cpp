@@ -42,7 +42,7 @@ public:
             ans -> val = sum %10 ;
             carry = sum /10 ;
 
-            ListNode* newNode = new ListNode(carry) ;
+            ListNode* newNode = new ListNode(carry) ;//yha carry daal rhe jo last ke element wala case handle krenge jb carry 0 nhi hoga and loop bhi khtm ho jayga toh hume ans hi return kna hoga 
             newNode -> next = ans ;
             ans = newNode ;
             sum = carry ;
