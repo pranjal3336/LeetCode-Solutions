@@ -25,24 +25,21 @@ public:
         //     prefixSum[i] = prefixSum[i-1] + nums[i] ;
         // }
 
-        int prefixSum = 0 ;//hume prefixsum wala array bnane ki jrurat nhi hai hum saath hi track kr skte hai add krke 
-
-        int count = 0 ;
-
-        unordered_map<int , int>m ;//yeh prefix sum wale values ki frequency store krega 
-        for(int j = 0 ; j<n ; j++){
-            prefixSum+=nums[j] ;
-            if(prefixSum == k){//prefixSum is sum till index j 
-                count++ ;
-            }
-            int val = prefixSum - k ;//val ko current sum bhi kh skte hai 
-            if(m.find(val) != m.end()){
-                count += m[val] ;
+        int prefixSum = 0 ;
+        int ans = 0 ;
+        unordered_map<int , int>mp ;
+        mp[0] = 1 ;
+        for(int i=0 ; i<n ; i++){
+            prefixSum += nums[i] ;
+            
+            int val = prefixSum - k ;
+            if(mp.find(val) != mp.end()){
+                ans+=mp[val] ;
             }
 
-           m[prefixSum]++ ;//agr value mile ya naa mile uski frequncy increment hogi chahe create krke phle 0 hogi phir 1 ho jaygi , agr alraedy hai toh direct increment hogi 
+            mp[prefixSum]++ ;
         }
 
-        return count ;
+        return ans ;
     }
 };
