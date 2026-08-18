@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-    
+        //humne index map krane ke baad 2 pointer hi use kiya hai 
       vector<pair<int , int>> v;
       for(int i=0 ; i<nums.size() ; i++){
         v.push_back({nums[i] , i}) ;
