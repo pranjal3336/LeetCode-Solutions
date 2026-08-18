@@ -5,12 +5,12 @@ public:
         vector<vector<int>>ans ;
 
         int i =0 ;
-        while(i<n && intervals[i][1] < newInterval[0]){
-            ans.push_back({intervals[i][0] , intervals[i][1]}) ;
+        while(i<n && intervals[i][1] < newInterval[0]){//no overlapping
+            ans.push_back(intervals[i]) ;
             i++ ;
         }
 
-        while(i<n && intervals[i][0] <= newInterval[1]){
+        while(i<n && intervals[i][0] <= newInterval[1]){//overlapping
 
             newInterval[0] = min(intervals[i][0] , newInterval[0]) ;
             newInterval[1] = max(intervals[i][1] , newInterval[1]) ;
@@ -18,10 +18,10 @@ public:
             i++ ;
         }
 
-        ans.push_back({newInterval[0] , newInterval[1]}) ;
+        ans.push_back(newInterval) ;//new interval insert kra 
 
-        while(i<n){
-            ans.push_back({intervals[i][0] , intervals[i][1]}) ;
+        while(i<n){//no overlapping
+            ans.push_back(intervals[i]) ;
             i++ ;
         }
 
