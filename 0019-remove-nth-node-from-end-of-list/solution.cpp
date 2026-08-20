@@ -15,26 +15,50 @@ public:
     if(head == NULL || head ->next == NULL){
         return NULL ;
     } 
+    // int L = 0 ;
+    // ListNode*curr = head ;
+    // while(curr != NULL){//total length nikal rha hu 
+    //     curr = curr -> next ;
+    //     L++ ;
+    // }
+    // if(L == n){
+    //     ListNode* temp = head -> next ;
+    //     delete(head) ;
+    //     return  temp ;
+    // }
+    // curr = head ;
+    // int k = L - n + 1 ;//nth node from last is L-n+1 node from starting 
+    // while(k>2){//k>2 se just nth node from last ke phle node pr aaenge and phir curr ke next   ko curr ke next ke next se link kr denge 
+    //     curr = curr->next ; 
+    //     k-- ;
+    // }
+    // //cout << curr ->val ;
+    // curr -> next = curr -> next -> next ;
+    // return head ;
 
-    vector<int> ans ;
-    ListNode* temp = head ;
+    //approach 2 using slow and fast ;
 
-    while(temp!=NULL){
-        ans.push_back(temp -> val);
-        temp = temp -> next ;
+    ListNode* fast = head ;
+
+    for(int i=1 ; i<= n ; i++){
+        fast = fast -> next ;
     }
-    int k = ans.size() - n ;
-    ans.erase(ans.begin()+k) ;
 
-    ListNode* first = new ListNode(ans[0]);
-    ListNode* curr = first ;
-    for(int i=1 ;i<ans.size();i++){
-        ListNode* temp = new ListNode(ans[i]);
-        curr -> next = temp ;
-        curr = temp ;
+    if(fast == NULL){
+        ListNode* temp = head -> next ;
+        delete(head) ;
+        return  temp ;
     }
 
-    return first ;
+    ListNode* slow = head ;
+    while(fast != NULL && fast -> next != NULL){
+        slow = slow -> next ;
+        fast = fast -> next ;
+    }
+    ListNode* delNode = slow->next ;
+    slow -> next = slow -> next -> next ;
+    delete(delNode) ;
+    return head ;
 
 
     }
