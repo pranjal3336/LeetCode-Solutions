@@ -25,12 +25,12 @@ public:
             x = x/10 ;
         }
 
-        if(x == a){//even length of integer 
+        if(x == a || x == a/10 ){//even length of integer 
             return true ;
         }
-        else if(x == a/10){//odd length of integer 
-            return true ;
-        }
+        // else if(){//odd length of integer 
+        //     return true ;
+        // }
         return false ;
 
     }
