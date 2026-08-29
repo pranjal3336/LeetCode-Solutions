@@ -21,7 +21,15 @@ public:
         return dp[n] = ans ;
     }
     int climbStairs(int n) {
-        vector<int>dp(n+1 , -1) ;
-        return solve(n , dp) ;
+        // vector<int>dp(n+1 , -1) ;
+        // return solve(n , dp) ;
+
+        double  a = (1.0+sqrt(5.0))/2.0 ;
+        double b = (1.0-sqrt(5.0))/2.0 ;
+
+        int  ans = round(((pow(a , n+1) - pow(b , n+1))/sqrt(5.0))) ;
+
+        return ans ;
+
     }
 };
