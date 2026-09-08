@@ -1,47 +1,33 @@
 class Solution {
 public:
-    bool bfs(int i ,vector<vector<int>>& graph , vector<int>&color ){
-        //agr graph ke nodes ko sirf 2 color se covered kr diya and adjecent node ka same color nhi hona chahiye tb hi bipartitie graph hoga 
-        //hume ek trh se adjacency list hi given hai 
+    bool dfs(vector<vector<int>>& graph , vector<int>&color , int currNode , int currColor){
+        color[currNode] = currColor ;
 
-        //using bfs
-        int n = graph.size() ; //no of nodes 
-        queue<int>q ;
-        color[i] = 0 ;
-        q.push(i) ;
-        while(!q.empty()){
-            int top  = q.front() ;
-            q.pop() ;
-
-            //traversing neighbours ;
-            for(auto nbr : graph[top]){
-                if(color[nbr] == -1){//yaani node visit nhi kra and uska color array mai default value hai yaani -1 and ab iska color iske parent node yaani top jiska yeh nbr hai usse alg hona chaahiye isliye !color[top] likha hai jisse agr top ka color 0 hoga toh iska 1 ho jayga vrna 0 ho jayga 
-                    color[nbr] = !color[top] ;
-                    q.push(nbr) ;
-                }
-                else if(color[nbr] == color[top]){//agr nbr colord hai and iska parent yaani top ka bhi same color hai toh yeh bipartite nhi hai kyunki adjacent node ka same color ho gya joki nhi hona chihiye tha  isliye return false krenge 
+        for(auto &v: graph[currNode]){
+            if(color[v] == color[currNode]){
+                return false ;
+            }
+            else if(color[v] == -1){
+                int colorofv = 1 - currColor ;//current node ke color ka opposite le rhe hai agr currColor =1 hua toh v ka color 1-1 = 0 ho jayga and agr current color 0 hua toh v ka color 1 -0 = 1 ho jayga 
+                if(dfs(graph , color , v , colorofv) == false){
                     return false ;
                 }
             }
         }
-        return true ;//agrupr se return false nhi hua yaani queue empty and graph bipartite hai return true krenge 
 
+        return true ;
     }
     bool isBipartite(vector<vector<int>>& graph) {
-        //agr graph ke nodes ko sirf 2 color se covered kr diya and adjecent node ka same color nhi hona chahiye tb hi bipartitie graph hoga 
-        //hume ek trh se adjacency list hi given hai 
-
-        //using bfs
-        int n = graph.size() ; //no of nodes 
+        int n = graph.size() ;
         vector<int>color(n , -1) ;
-        bool ans = true ;
-        //for loop lgaya hai kyonki graph discoonected bhi ho skta hai 
+        
         for(int i=0 ; i<n ; i++){
-            if(color[i] == -1){
-                ans = ans && bfs(i , graph , color ) ;
+            if(color[i] == -1){//starting mai color ko 0 rkhunga then uska oppsite lenge yaani 1 
+                if( dfs(graph , color , i , 0) == false){
+                    return false ;
+                }
             }
-            
         }
-        return ans ;
+        return true  ;
     }
 };
