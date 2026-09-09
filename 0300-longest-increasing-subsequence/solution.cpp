@@ -1,7 +1,7 @@
 class Solution {
 public:
-    int solve(int prev , int curr , vector<int>& nums , int n , vector<vector<int>>&dp){
-        if(curr == n){
+    int solve(vector<int>& nums , int prev , int curr , vector<vector<int>>&dp){
+        if(curr == nums.size()){
             return 0 ;
         }
 
@@ -11,15 +11,15 @@ public:
 
         int include = 0 ;
         if(prev == -1 || nums[curr]> nums[prev]){
-            include = 1 + solve(curr , curr+1 , nums , n , dp) ;
+            include = 1+ solve(nums , curr , curr+1 , dp) ;
         }
-        int exclude = solve(prev , curr+1 , nums , n , dp) ;
+        int exclude = solve(nums , prev , curr+1 , dp) ;
 
         return dp[prev+1][curr] =  max(include , exclude) ;
     }
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size() ;
+        int n =  nums.size() ;
         vector<vector<int>>dp(n+1 , vector<int>(n+1 , -1)) ;
-        return solve(-1 , 0 , nums , n , dp) ;
+        return solve(nums , -1 , 0  , dp) ;
     }
 };
