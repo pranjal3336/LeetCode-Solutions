@@ -1,69 +1,54 @@
 class Solution {
 public:
-    int findParent(int node , vector<int>&parent){
-        if(parent[node] == node){
-            return node ;
+    int findParent(int i , vector<int>&parent){
+        if(i == parent[i]){
+            return i ;
         }
-        
-        return parent[node] = findParent(parent[node] , parent) ;
-    }
-    
-    void unionSet(int u , int v , vector<int>&parent , vector<int>&rank ){
-        int ultp_u = findParent(u , parent) ; //hum u ka root parent nikal rhe hai 
-        int ultp_v = findParent(v , parent) ;
-        
-        // Agar dono pehle se same group mein hain, toh kuch mat karo
-        if (ultp_u  == ultp_v) {
 
-            return;
+        return parent[i] = findParent(parent[i] , parent) ;
+    }
+
+    void unionbyrank(int u , int v , vector<int>&rank , vector<int>&parent){
+        int u_par = findParent(u , parent) ;
+        int v_par = findParent(v , parent) ;
+
+        if(u_par == v_par){
+            return ;
         }
-        
-        
-        if(rank[ultp_u ]<rank[ultp_v]){
-            parent[ultp_u ] = ultp_v;
+
+        if(rank[u_par] < rank[v_par]){
+            parent[u_par] = parent[v_par] ;
         }
-        else if(rank[ultp_v]<rank[ultp_u ]){
-            parent[ultp_v] = ultp_u ;
+        else if(rank[u_par] > rank[v_par]){
+            parent[v_par] = parent[u_par] ;
         }
         else{
-            parent[ultp_u ] = ultp_v ;
-            rank[ultp_v]++ ;
-        }
-        
-    
-    }
-    int makeConnected(int n, vector<vector<int>>& connections) {
-        int m = connections.size() ;
-        
-        
-        vector<int>parent(n) ;
-        vector<int>rank(n , 0);
-        for(int i=0 ; i<n ; i++){
-            parent[i] =i ;
+            parent[u_par] = parent[v_par] ;
+            rank[v_par]++ ;
         }
 
-        int extraedges = 0 ;
-            for(auto it : connections){
-                int u = it[0] ;
-                int v = it[1] ;
-                if(findParent(u , parent) == findParent(v , parent)){
-                    extraedges++ ;
-                }
-                else{
-                    unionSet(it[0] , it[1] , parent , rank) ;
-                }
-            }
-        
-        int cnt =0 ;
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        vector<int>rank(n , 0) ;
+        vector<int>parent(n) ;
         for(int i=0 ; i<n ; i++){
-            if(parent[i] == i){
-                cnt++ ;
+            parent[i] = i ;
+        }
+        int e = connections.size() ;
+        if(e < n-1 ){
+            return -1 ;
+        }
+
+        for(auto &it : connections){
+            int u = it[0] ;
+            int v = it[1] ;
+
+            if(findParent(u , parent) != findParent(v , parent)){
+                n-- ;
+                unionbyrank(u , v , rank , parent) ;
             }
         }
-        int finalans = cnt - 1;
-        if(extraedges>= finalans){
-            return finalans ;
-        }
-        return -1  ;
+
+        return n-1 ;
     }
 };
