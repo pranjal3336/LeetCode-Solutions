@@ -23,7 +23,7 @@ public:
             for(int j = i ; j<s.length() ; j++){
                 if(solve(i , j , s , dp)){
                     if(j-i+1 > maxlength){
-                        maxlength = max(maxlength , j-i+1) ;
+                        maxlength = j-i+1 ;
                         startpos = i ;
                     }   
                 }
