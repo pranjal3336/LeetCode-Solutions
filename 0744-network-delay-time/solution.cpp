@@ -1,49 +1,47 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        unordered_map<int , list<pair<int , int>>>adj ;
-        for(int i =0 ; i<times.size() ;i++){
-            int u = times[i][0] ;
-            int v = times[i][1] ;
-            int t = times[i][2] ;
+        
+        unordered_map<int , vector<pair<int ,int>>>adj ;
+        for(auto &it : times){
+            int u = it[0] ;
+            int v = it[1] ;
+            int w = it[2] ;
 
-            adj[u].push_back({v , t}) ;
+            adj[u].push_back({v,w}) ;//directed graph h yeh 
+            
         }
-        vector<int>dist(n+1 , 1e9) ;
 
-        //priority_queue<pair<int , int>,  vector<pair<int , int>> , greater<pair<int , int>>> pq ;
-        set<pair<int , int>>st ;
+        vector<int>dist(n+1 , INT_MAX) ;
+
+        priority_queue<pair<int , int> , vector<pair<int , int>> , greater<pair<int , int>>>pq ;
+
+        pq.push({0,k}) ;
         dist[k] = 0 ;
-        //pq.push({0 , k}) ;
-        st.insert({0 ,k}) ;
-        while(!st.empty()){
-            auto it = *(st.begin()) ;
-            st.erase(st.begin()) ;
-            int toptime = it.first ;
-            int node = it.second ;
 
-            for(auto nbr : adj[node]){
-                if(toptime + nbr.second < dist[nbr.first]){
-                    auto record = st.find({dist[nbr.first] , nbr.first}) ;
-                    if(record != st.end()){
-                        st.erase(record) ;
-                    }
-                    dist[nbr.first] = toptime + nbr.second ;
-                    st.insert({dist[nbr.first] , nbr.first}) ;
+        while(!pq.empty()){
+            int d = pq.top().first ;
+            int node = pq.top().second ;
+            pq.pop() ;
+
+            for(auto &nbr : adj[node]){
+                int nbrnode = nbr.first ;
+                int nbrdis = nbr.second ;
+
+                if(d+ nbrdis < dist[nbrnode]){
+                    dist[nbrnode] = d + nbrdis ;
+                    pq.push({dist[nbrnode] , nbrnode}) ;
                 }
             }
         }
-
         int maxi = INT_MIN ;
-        for(int i =1 ; i<=n ; i++){
-            maxi = max(maxi  , dist[i]) ;
+        for(int i =1 ; i<n+1 ; i++){
+            maxi = max(maxi , dist[i]) ;
         }
 
-        if(maxi == 1e9){
+        if(maxi == INT_MAX){
             return -1 ;
         }
-
         return maxi ;
-
     }
 };
