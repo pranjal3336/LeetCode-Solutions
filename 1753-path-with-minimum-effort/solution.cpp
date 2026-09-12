@@ -19,8 +19,8 @@ public:
 
         // 4 directions (Up, Left, Down, Right) mein move karne ke liye arrays.
         // Yeh standard BFS/Dijkstra matrix traversal technique hai.
-        int drow[] = {-1 , 0 , 1 , 0} ; 
-        int dcol[] = {0 , -1 , 0 , 1} ; 
+        int drow[] = {-1 , 1 , 0 ,0} ; 
+        int dcol[] = {0, 0 , -1, 1} ; 
 
         while(! pq.empty()){
             // Sabse minimum effort wale current cell ko extract kar rahe hain.
