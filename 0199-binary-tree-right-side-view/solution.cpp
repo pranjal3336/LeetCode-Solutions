@@ -12,24 +12,20 @@
 class Solution {
 public:
     void solve(TreeNode* root , vector<int>&ans , int level){
-        //base case 
         if(root == NULL){
             return ;
         }
-        
-        //when enter in a new level toh shurur wale ko ans mai push kr rhe hai 
-        if(level == ans.size()){
+        if(ans.size() == level){
             ans.push_back(root->val) ;
         }
-        //yeh question same left view ki trh hai bas isme phle right jaaenge 
-        solve(root->right , ans , level+1) ;
-        solve(root->left , ans , level+1) ;
-        
-         
+
+        solve(root-> right , ans , level+1) ;
+        solve(root -> left , ans , level+1) ;
     }
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans ;
-        solve(root , ans , 0);
+        int level = 0 ;
+        vector<int>ans ;
+        solve(root , ans , level) ;
         return ans ;
     }
 };
