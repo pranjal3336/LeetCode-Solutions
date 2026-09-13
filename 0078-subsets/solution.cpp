@@ -1,27 +1,23 @@
 class Solution {
-private : 
-    void solve(vector<int> nums , vector<int> output , int index , vector<vector<int>  >& ans){
+public:
+    void solve(vector<int>&nums , int i , vector<int>&temp , vector<vector<int>>&ans){
         //base case 
-        if(index>= nums.size()){
-            ans.push_back(output) ;
+        if(i>=nums.size()){
+            ans.push_back(temp) ;
             return ;
         }
 
-        //exclude
-        solve(nums , output , index+1 , ans) ;
-
-        //include
-        int element = nums[index] ;
-        output.push_back(element) ;
-        solve(nums , output , index+1 , ans) ;
-    
+        temp.push_back(nums[i]) ;//including current number
+        //case 1 --> include krne ke baad explore kr rhe 
+        solve(nums , i+1 , temp , ans) ;
+        temp.pop_back() ;//excluding current number 
+        //case 2 exclude krne ke baad explore kr rhe
+        solve(nums , i+1 , temp , ans) ;
     }
-public:
     vector<vector<int>> subsets(vector<int>& nums) {
-    vector<vector<int> > ans ;
-    vector<int> output ;
-    int index = 0;
-    solve(nums , output ,index , ans) ;
-    return ans ;   
+        vector<vector<int>>ans ;
+        vector<int>temp ;
+        solve(nums , 0 , temp , ans) ;
+        return ans ;
     }
 };
