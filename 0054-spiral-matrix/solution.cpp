@@ -1,43 +1,40 @@
 class Solution {
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int count =0;
-        int row = matrix.size();
-        int col = matrix[0].size();
-        int total = row*col ;
-        int startingrow = 0;
-        int startingcol = 0;
-        int endingrow = row - 1;
-        int endingcol = col -1 ;
-        vector<int> ans ;
+    vector<int> spiralOrder(vector<vector<int>>& arr) {
+        int cnt = 0 ;
+        int r = arr.size() ;
+        int c = arr[0].size() ;
+        int sr = 0 ;
+        int sc = 0 ;
+        int er = r-1 ;
+        int ec = c -1 ;
+        int total = r*c ;
+        vector<int>ans ;
 
-        while(count < total){
-            //printing starting row 
-            for(int index =startingcol; count <total && index<= endingcol ; index++){
-                ans.push_back(matrix[startingrow][index]);
-                count++;
+        while(cnt <total){
+            for(int i = sc ;cnt <total && i<=ec ; i++){
+                ans.push_back(arr[sr][i]) ;
+                cnt++ ;
             }
-            startingrow++;
-            //printing ending column 
-            for(int index =startingrow; count <total && index<= endingrow ; index++){
-                ans.push_back(matrix[index][endingcol]);
-                count++;
+            sr++ ;
+            
+            for(int i = sr ;cnt <total && i<=er ; i++){
+                ans.push_back(arr[i][ec]) ;
+                cnt++ ;
             }
-            endingcol--;
-            //printing ending row 
-            for(int index =endingcol ; count <total && index>= startingcol ; index--){
-                ans.push_back(matrix[endingrow][index]);
-                count++;
+            ec-- ;
+            for(int i = ec ;cnt <total && i>=sc ; i--){
+                ans.push_back(arr[er][i]) ;
+                cnt++ ;
             }
-            endingrow--;
-            //printing starting column 
-            for(int index =endingrow; count <total && index>= startingrow ; index--){
-                ans.push_back(matrix[index][startingcol]);
-                count++;
+            er-- ;
+            for(int i = er ;cnt <total && i>=sr ; i--){
+                ans.push_back(arr[i][sc]) ;
+                cnt++ ;
             }
-            startingcol++;
+            sc++ ;
+
         }
-        return ans;
-
+        return ans ;
     }
 };
