@@ -1,10 +1,35 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-        int ans = 0;
-        for(int i=0;i<nums.size();i++){
-                ans = ans^nums[i];
+        int l = 0 ;
+        int r = nums.size() -1 ;
+        
+        while(l<r){
+            int mid = l +(r-l)/2 ;
+            if(nums[mid] == nums[mid+1]){
+                //right mai even elements hai 
+                if((r-mid)%2 == 0){
+                    l = mid+2 ;
+                }
+
+                //right mai odd elements hai 
+                else{
+                    r = mid -1 ;
+                }
+            }
+            else if(nums[mid] != nums[mid+1]){
+                //right mai even elements hai 
+                if((r-mid)%2 == 0){
+                    r = mid  ;
+                }
+                //right mai odd elements hai 
+                else{
+                   l = mid +1 ;
+                }
+            }
+           
         }
-        return ans ;
+
+        return nums[r] ;
     }
 };
