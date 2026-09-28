@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int pivotIndex(int l , int r ,vector<int>& nums){
+
+        while(l<r){
+            int mid = l +(r-l)/2 ;
+            if(nums[mid]>nums[r]){
+                l = mid +1 ;
+            }
+            else{
+                r = mid ;
+            }
+        }
+
+        return r ;
+    }
+
+    int binarySearch(int l , int r , vector<int>& nums, int target){
+        int idx = -1 ;
+        while(l<=r){
+            int mid = l + (r-l)/2 ;
+            if(nums[mid] == target){
+                idx = mid ;
+                break ;
+            }
+            else if(nums[mid] > target){
+                r = mid -1 ;
+            }
+            else{
+                l = mid+1 ;
+            }
+        }
+        return idx ;
+    }
+    int search(vector<int>& nums, int target) {
+        int n = nums.size() ;
+        int pivot = pivotIndex(0 , n-1 , nums);
+
+        int idx = binarySearch(0 , pivot -1 , nums , target) ;
+        if(idx != -1){
+            return idx ;
+        }
+
+        idx = binarySearch(pivot , n-1 ,  nums , target) ; 
+        return idx ;
+    }
+};
