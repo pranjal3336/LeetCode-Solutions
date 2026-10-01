@@ -1,38 +1,44 @@
 class Solution {
 public:
-    bool dfs(unordered_map<int , list<int>>&adj  ,vector<bool>&vis  ,vector<bool>&inRecursion , int node){
-        vis[node] = true ;
-        inRecursion[node] = true ;
-
-        for(auto &it:adj[node]){
-            if(!vis[it] && dfs(adj , vis , inRecursion , it)){
-                return true ;
-            }
-            else if(inRecursion[it] == true){
-                return true ;
-            }
-        }
-
-        inRecursion[node] = false ;
-        return false ;
-    }
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<bool>vis(numCourses , false) ;
-        vector<bool>inRecursion(numCourses , false) ;
-
+    bool canFinish(int n, vector<vector<int>>& pre) {
         unordered_map<int , list<int>>adj ;
-        for(int i=0 ; i<prerequisites.size() ; i++){
-            int u = prerequisites[i][0] ;
-            int v = prerequisites[i][1] ;
+        for(int i = 0 ; i<pre.size() ; i++){
+            int u = pre[i][1] ;
+            int v = pre[i][0] ;
 
-            adj[v].push_back(u) ;
+            adj[u].push_back(v) ;
+
         }
 
-        for(int i=0 ; i<numCourses ; i++){
-            if(!vis[i] && dfs(adj , vis , inRecursion , i)){
-                return false ;//cycle mil gyi h toh ciurse nhi le skte 
+        vector<int>indegree(n , 0) ;
+        for(auto i : adj){
+            for(auto j : i.second){
+                indegree[j]++ ;
             }
         }
-        return true ;
+
+        queue<int>q ;
+        for(int i =0 ; i<n ; i++){
+            if(indegree[i] == 0){
+                q.push(i) ;
+            }
+        }
+
+
+        while(!q.empty()){
+            int node = q.front() ;
+            q.pop() ;
+            n-- ;
+            for(auto nbr : adj[node]){
+                indegree[nbr]-- ;
+                if(indegree[nbr] == 0){
+                    q.push(nbr) ;
+                }
+            }
+        }
+
+        return n==0 ;
+
+
     }
 };
