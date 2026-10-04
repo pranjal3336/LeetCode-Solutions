@@ -1,14 +1,18 @@
 class Solution {
 public:
     vector<int> resultArray(vector<int>& nums) {
-        if(nums.size()<=2){
+        int n = nums.size() ;
+        if(n <=2){
             return nums ;
         }
+        
         vector<int>arr1 ;
         arr1.push_back(nums[0]) ;
+
         vector<int>arr2 ;
         arr2.push_back(nums[1]) ;
-        for(int i=2 ; i< nums.size() ; i++){
+
+        for(int i=2 ; i<n ; i++){
             if(arr1.back() > arr2.back()){
                 arr1.push_back(nums[i]) ;
             }
@@ -17,7 +21,17 @@ public:
             }
         }
 
-        arr1.insert(arr1.end() , arr2.begin() , arr2.end()) ;//arr1 ke last se hum arr2 ko copy kr rhe hai 
-        return arr1 ;
+        vector<int>ans ;
+
+        for(int i : arr1){
+            ans.push_back(i) ;
+        }
+
+        for(int i : arr2){
+            ans.push_back(i) ;
+        }
+
+        return ans ;
+
     }
 };
