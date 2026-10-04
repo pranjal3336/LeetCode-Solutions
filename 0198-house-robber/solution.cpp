@@ -1,25 +1,22 @@
 class Solution {
 public:
-    int solve(int n ,vector<int>& nums , vector<int>&dp ){
-        if(n<0){
+    int solve(int i ,vector<int>& nums , vector<int>&dp){
+        if(i>=nums.size()){
             return 0 ;
         }
-        if(n==0){
-            return nums[0] ;
-        }
-        if(dp[n] != -1){
-            return dp[n] ;
+
+        if(dp[i] != -1){
+            return dp[i] ;
         }
 
-        int include = solve(n-2 , nums ,dp) + nums[n] ;
-        int exclude = solve(n-1 , nums , dp) + 0 ;
-        dp[n] = max(include , exclude) ;
-        return dp[n] ;
+        int include = nums[i] + solve(i+2 , nums , dp) ;
+        int exclude = 0 + solve(i+1 , nums , dp) ;
+
+        return dp[i] =  max(include , exclude) ;
+
     }
     int rob(vector<int>& nums) {
-        int n = nums.size() ;
-        vector<int>dp(n+1 , -1) ;
-        int ans = solve( n-1 , nums , dp) ;
-        return ans ;
+        vector<int>dp(nums.size() , -1) ;
+        return solve(0 , nums , dp) ;
     }
 };
