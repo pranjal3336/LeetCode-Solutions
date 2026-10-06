@@ -1,26 +1,23 @@
 class Solution {
 public:
-    bool solve(vector<int>& nums , int i , int n , vector<int>&dp){
-        if(i>=n-1){
+    bool canJump(vector<int>& nums) {
+        int n = nums.size() ;
+        int maxEnd = 0 ;
+        int currEnd = 0 ;
+
+        if(n == 1){
             return true ;
         }
 
-        if(dp[i] != -1){
-            return dp[i] ;
-        }
-        for(int j=1 ; j<= nums[i] ; j++){
-            if(solve(nums , i+j , n , dp)){
-                dp[i] = 1 ;
-                return true ;
+        int i=0 ;
+        while(i<n){
+            if(i>maxEnd){
+                return false ;
             }
+            maxEnd = max(maxEnd , i+nums[i]) ;
+            i++ ;
         }
 
-        dp[i] = 0 ;
-        return false ;
-    }
-    bool canJump(vector<int>& nums) {
-        int n = nums.size() ;
-        vector<int>dp(n+1, -1) ;
-        return solve(nums , 0 , n  , dp) ;
+        return true  ;
     }
 };
