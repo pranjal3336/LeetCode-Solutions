@@ -1,43 +1,20 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        //TC O(N2) and SC(1) ;
-        // int ans = 0 ;
-       
-        int n = nums.size() ;
-        // for(int i = 0 ; i<n ; i++){
-        //     int sum =0 ;
-        //     for(int j = i ; j<n ; j++){
-        //         sum +=nums[j];
-        //         if(sum == k){
-        //             ans+=1 ;
-        //         }
-        //     }
-        // }
-        // return ans ;
-
-        //now using prefix sum with hash map 
-
-        // vector<int>prefixSum(n , 0) ;
-        // prefixSum[0] = nums[0] ;
-        
-        // for(int i =1 ; i<n ; i++){
-        //     prefixSum[i] = prefixSum[i-1] + nums[i] ;
-        // }
-
-        int prefixSum = 0 ;
+        int n = nums.size() ; 
+        int i =0 ;
         int ans = 0 ;
         unordered_map<int , int>mp ;
         mp[0] = 1 ;
-        for(int i=0 ; i<n ; i++){
-            prefixSum += nums[i] ;
+        int sum = 0 ;
+        while(i<n){
+            sum += nums[i] ;
             
-            int val = prefixSum - k ;
-            if(mp.find(val) != mp.end()){
-                ans+=mp[val] ;
+            if(mp.find(sum - k) != mp.end()){
+                ans+=mp[sum-k] ;
             }
-
-            mp[prefixSum]++ ;
+            mp[sum]++ ;
+            i++ ;
         }
 
         return ans ;
