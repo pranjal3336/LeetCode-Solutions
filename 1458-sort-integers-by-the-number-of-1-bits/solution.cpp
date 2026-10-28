@@ -1,10 +1,10 @@
 class Solution {
 public:
-    bool static cmp(int a , int b){
-        if(__builtin_popcountll(a) < __builtin_popcountll(b)){
-            return __builtin_popcountll(a) < __builtin_popcountll(b)  ;
+    bool static cmp(int &a , int &b){
+        if(__builtin_popcount(a) < __builtin_popcount(b)){
+            return __builtin_popcount(a) < __builtin_popcount(b)  ;
         }
-        else if(__builtin_popcountll(a) == __builtin_popcountll(b)){
+        else if(__builtin_popcount(a) == __builtin_popcount(b)){
             return a < b ;
         }
 
